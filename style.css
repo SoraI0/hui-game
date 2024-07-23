@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(77, 77, 77);
+}
+
+button {
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    margin-top: 30px;
+    cursor: pointer;
+    background-color: rgb(252, 90, 90);
+    color: white;
+}
+
+.container {
+    width: 100%;
+}
+
+.inner {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+    padding-top: 200px;
+}
+
+.game-field {
+    width: 600px;
+    height: 200px;
+    background-color: rgb(31, 31, 31);
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+    .cube {
+        background-color: white;
+        margin-left: 20px;
+        align-self: end;
+        position: absolute;
+        order:10;
+    }
+
+:root {
+    --hui-color: rgb(255, 224, 189);
+}
+
+    .hui {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        align-self: end;
+        order: 10;
+    }
+
+        .hui__head{
+            width: 30px;
+            height: 30px;
+            background-color: rgb(247, 65, 101);
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .hui__stick{
+            width: 30px;
+            height: 30px;
+            background-color: var(--hui-color);
+        }
+
+        .hui__balls {
+            width: 90px;
+            height: 30px;
+            background-color: var(--hui-color);
+            border-radius: 20px;
+        }
