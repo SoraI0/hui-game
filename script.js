@@ -120,9 +120,6 @@ function gameEnd() {
     return true
 }
 
-
-
-
 buttonStart.addEventListener('click', ()=> {
     gameStart()
 })
