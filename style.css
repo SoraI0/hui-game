@@ -30,52 +30,65 @@ button {
     padding-top: 200px;
 }
 
-.game-field {
-    width: 600px;
-    height: 200px;
-    background-color: rgb(31, 31, 31);
-    display: flex;
-    position: relative;
-    overflow: hidden;
-}
-
-    .cube {
-        background-color: white;
-        margin-left: 20px;
-        align-self: end;
-        position: absolute;
-        order:10;
-    }
-
-:root {
-    --hui-color: rgb(255, 224, 189);
-}
-
-    .hui {
+    .game-field {
+        width: 600px;
+        height: 200px;
+        background-color: rgb(31, 31, 31);
         display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        align-self: end;
-        order: 10;
+        position: relative;
+        overflow: hidden;
     }
 
-        .hui__head{
-            width: 30px;
-            height: 30px;
-            background-color: rgb(247, 65, 101);
-            border-radius: 20px 20px 0 0;
-        }
-        
-        .hui__stick{
-            width: 30px;
-            height: 30px;
-            background-color: var(--hui-color);
+        .cube {
+            background-color: white;
+            margin-left: 20px;
+            align-self: end;
+            position: absolute;
+            order:10;
         }
 
-        .hui__balls {
-            width: 90px;
-            height: 30px;
-            background-color: var(--hui-color);
-            border-radius: 20px;
+    :root {
+        --hui-color: rgb(255, 224, 189);
+    }
+
+        .hui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            align-self: end;
+            order: 10;
+        }
+
+            .hui__head{
+                width: 30px;
+                height: 30px;
+                background-color: rgb(247, 65, 101);
+                border-radius: 20px 20px 0 0;
+            }
+            
+            .hui__stick{
+                width: 30px;
+                height: 30px;
+                background-color: var(--hui-color);
+            }
+
+            .hui__balls {
+                width: 90px;
+                height: 30px;
+                background-color: var(--hui-color);
+                border-radius: 20px;
+            }
+
+    .score-board {
+        transition: 0.2s;
+        width: 90%;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        font-size: 20px;
+    }
+        .huis-counter, .score {
+            transition: 0.2s;
         }
