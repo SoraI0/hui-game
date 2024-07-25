@@ -19,10 +19,42 @@ cube.style.bottom = '0px'
 let isGame
 let huiSpawn
 let isJump = true
+let huiSpeed = 1
 
 let huisCount = 0
 let score = 0
 let scoreCounter
+
+const endScreen = document.createElement('div')
+    gameField.appendChild(endScreen)
+    endScreen.style.width = '100%'
+    endScreen.style.height = '100%'
+    endScreen.style.display = 'none'
+    endScreen.style.justifyContent = 'center'
+    endScreen.style.alignItems = 'center'
+    endScreen.style.textAlign = 'center'
+    endScreen.style.color = 'white'
+    endScreen.style.fontSize = '35px'
+    endScreen.style.backgroundColor = 'red'
+    endScreen.style.transition = '0.5s'
+
+function gameStart() {
+    reset()
+    isGame = true
+
+    huiSpawn = setInterval(()=>{
+        setTimeout(()=>{
+            huiCreate()
+        },getRndInteger(1000, 3000))      
+    }, 3000)
+
+    scoreCounter = setInterval(()=>{
+        score = score + 1 * huisCount
+        scoreCountOnScreen.textContent = score
+    },100)
+    
+    cubeControl()
+}
 
 function huiCreate() {
     const hui = document.createElement('div')
@@ -46,15 +78,20 @@ function huiCreate() {
     function huiMove () {
     
         let huiMove = setInterval(()=>{
-            huiPosition-- 
+            huiPosition = huiPosition - huiSpeed
             hui.style.left = huiPosition + 'px'
             if (collision(cube, hui)) {
                 clearInterval(huiMove)
                 hui.style.opacity = '20%'
             }
-            if (huiPosition === -1) {
+            if (huiPosition === -huiSpeed) {
                 huisCount = huisCount + 1
                 huisCountOnScreen.textContent = huisCount
+                console.log('cheeeeck');
+                if(huisCount % 10 === 0 && huisCount >= -1){
+                    huiSpeed = huiSpeed + 0.5
+                    console.log(true, huisCount, huiSpeed)
+                }
             }
             if (huiPosition === -200) {
                 hui.remove()
@@ -73,13 +110,13 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min
 }
 
-function gameStart() {
+function reset() {
     score = 0
     huisCount = 0
+    huiSpeed = 1
     scoreCountOnScreen.textContent = 0
     huisCountOnScreen.textContent = 0
     document.querySelectorAll('.hui').forEach(e => e.remove())
-    isGame = true
     buttonStart.style.display = 'none'
     buttonRestart.style.display = 'none'
     scoreBoard.style.display =  'flex'
@@ -87,37 +124,6 @@ function gameStart() {
 
     endScreen.style.display = 'none'
     cube.style.opacity = '100%'
-
-    huiSpawn = setInterval(()=>{
-        setTimeout(()=>{
-            huiCreate()
-        },getRndInteger(1000, 3000))      
-    }, 3000)
-
-    scoreCounter = setInterval(()=>{
-        score = score + 1 * huisCount
-        scoreCountOnScreen.textContent = score
-        console.log(score);
-    },100)
-    
-    cubeControl()
-    
-    console.log(isGame);
-}
-
-function gameEnd() {
-    endScreen.style.display = 'flex'
-    scoreBoard.style.display =  'none'
-    gameField.style.marginTop = '33.33px'
-    
-    cube.style.opacity = '20%'
-    
-    buttonRestart.style.display = 'block'
-    isGame = false
-    endScreen.innerHTML = `Отакої,<br>ви зачепилися за хуй<br>Ваш рахуок: ${score}<br>Перестрибнуто членів: ${huisCount}`
-    clearInterval(huiSpawn)
-    clearInterval(scoreCounter)
-    return true
 }
 
 buttonStart.addEventListener('click', ()=> {
@@ -153,27 +159,26 @@ function cubeControl () {
                     setTimeout(() => {
                         cube.style.bottom = '0px'
                     }, 500);
-                }, 600);
-                
+                }, 600);  
             }      
         })
-    
 }
 
-
-const endScreen = document.createElement('div')
-    gameField.appendChild(endScreen)
-    endScreen.style.width = '100%'
-    endScreen.style.height = '100%'
-    endScreen.style.display = 'none'
-    endScreen.style.justifyContent = 'center'
-    endScreen.style.alignItems = 'center'
-    endScreen.style.textAlign = 'center'
-    endScreen.style.color = 'white'
-    endScreen.style.fontSize = '35px'
-    endScreen.style.backgroundColor = 'red'
-    endScreen.style.transition = '0.5s'
-
+    
+function gameEnd() {
+    endScreen.style.display = 'flex'
+    scoreBoard.style.display =  'none'
+    gameField.style.marginTop = '33.33px'
+    
+    cube.style.opacity = '20%'
+    
+    buttonRestart.style.display = 'block'
+    isGame = false
+    endScreen.innerHTML = `Отакої,<br>ви зачепилися за хуй<br>Ваш рахуок: ${score}<br>Перестрибнуто членів: ${huisCount}`
+    clearInterval(huiSpawn)
+    clearInterval(scoreCounter)
+    return true
+}
     
 
 
