@@ -19,7 +19,7 @@ const endScreen = document.createElement('div')
     endScreen.style.textAlign = 'center'
     endScreen.style.color = 'white'
     endScreen.style.fontSize = '35px'
-    endScreen.style.backgroundColor = 'red'
+    endScreen.style.backgroundColor = 'rgb(252, 90, 90)'
     endScreen.style.transition = '0.5s'
     endScreen.style.zIndex = '5'
 
@@ -79,7 +79,7 @@ function getPosition(element) {
 
 function convCreate(startPos) {
     const conv = document.createElement('img')
-    conv.setAttribute('src', './images/conv.PNG')
+    conv.setAttribute('src', './images/conv.png')
     conv.classList.add('conv')
     conv.style.left = startPos + 'px'
     gameField.appendChild(conv)
@@ -211,7 +211,7 @@ function gameEnd() {
     
     buttonRestart.style.display = 'block'
     isGame = false
-    endScreen.innerHTML = `Отакої,<br>ви зачепилися за хуй<br>Ваш рахуок: ${score}<br>Перестрибнуто членів: ${huisCount}`
+    endScreen.innerHTML = `Отакої,<br>ви зачепилися за пеніс<br>Ваш рахуок: ${score}<br>Зібрано пенісів: ${huisCount}`
     clearInterval(huiSpawn)
     clearInterval(scoreCounter)
     document.querySelectorAll('.hui').forEach(e => e.remove())
