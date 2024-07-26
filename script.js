@@ -8,6 +8,21 @@ const huisCountOnScreen = document.querySelector('.huis-counter > span')
 const scoreCountOnScreen = document.querySelector('.score > span')
 const scoreBoard = document.querySelector('.score-board')
 
+const endScreen = document.createElement('div')
+    gameField.appendChild(endScreen)
+    endScreen.style.position = 'absolute'
+    endScreen.style.width = '100%'
+    endScreen.style.height = '100%'
+    endScreen.style.display = 'none'
+    endScreen.style.justifyContent = 'center'
+    endScreen.style.alignItems = 'center'
+    endScreen.style.textAlign = 'center'
+    endScreen.style.color = 'white'
+    endScreen.style.fontSize = '35px'
+    endScreen.style.backgroundColor = 'red'
+    endScreen.style.transition = '0.5s'
+    endScreen.style.zIndex = '5'
+
 huisCountOnScreen.style.transition = '0.2s'
 scoreCountOnScreen.style.transition = '0.2s'
 
@@ -23,35 +38,20 @@ let huisCount = 0
 let score = 0
 let scoreCounter
 
+let huis = []
+let convs = []
 
-const endScreen = document.createElement('div')
-    gameField.appendChild(endScreen)
-    endScreen.style.position = 'absolute'
-    endScreen.style.width = '100%'
-    endScreen.style.height = '100%'
-    endScreen.style.display = 'none'
-    endScreen.style.justifyContent = 'center'
-    endScreen.style.alignItems = 'center'
-    endScreen.style.textAlign = 'center'
-    endScreen.style.color = 'white'
-    endScreen.style.fontSize = '35px'
-    endScreen.style.backgroundColor = 'red'
-    endScreen.style.transition = '0.5s'
+let gameLoop
+convCreate(0)
+convCreate(600)
 
-    const conv = document.createElement('img')
-    conv.setAttribute('src', './images/conv.PNG')
-    conv.classList.add('conv')
-    gameField.appendChild(conv)
+
 function gameStart() {
 
     reset()
     isGame = true
-    
-    // convMove = setInterval(()=>{
-    //     gameField.appendChild(conv)
-    //     conv.style.marginLeft = Number(conv.style.marginLeft.slice(0, -2)) - 1 + 'px'
-    // },5)
 
+    gameLoop = setInterval(gameTick, 5)
 
     huiSpawn = setInterval(()=>{
         setTimeout(()=>{
@@ -67,9 +67,37 @@ function gameStart() {
     doorControl()
 }
 
-function convCreate() {
-    
+function gameTick() {
+    moveHuis()
+    moveConvs()
 }
+
+
+function getPosition(element) {
+    return Number(element.style.left.slice(0, -2))
+}
+
+function convCreate(startPos) {
+    const conv = document.createElement('img')
+    conv.setAttribute('src', './images/conv.PNG')
+    conv.classList.add('conv')
+    conv.style.left = startPos + 'px'
+    gameField.appendChild(conv)
+    convs.push(conv)
+}
+
+
+
+function moveConvs() {
+    convs.forEach(conv => {
+        conv.style.left = getPosition(conv) - huiSpeed + 'px'
+        if (getPosition(conv) <= -conv.width ) {
+            conv.style.left = conv.width + 'px'
+        }
+    })
+   
+}
+
 
 function huiCreate() {
     const hui = document.createElement('div')
@@ -82,47 +110,37 @@ function huiCreate() {
     let huiPosition = 600
     hui.style.left = huiPosition + 'px'
 
-    if (isGame) {
-        hui.style.opacity = '100%'
-    } else {
-        hui.style.opacity = '20%'
-    }
-    
+
     gameField.insertAdjacentElement('afterbegin', hui)
     
-    function huiMove () {
-    
-        let huiMove = setInterval(()=>{
-            // console.log('Hui: ',huiPosition)
-            // console.log('Door:',door.style.left)
-            if(huiPosition > -200) {huiPosition = huiPosition - huiSpeed}
-            
-            hui.style.left = huiPosition + 'px'
-            
-            if (huiPosition === 0 ) {
-                
-                huisCount = huisCount + 1
-                huisCountOnScreen.textContent = huisCount
-                if(huisCount % 10 === 0 && huisCount >= -1){
-                    huiSpeed = huiSpeed + 0.5
-                    console.log(true, huisCount, huiSpeed, huiPosition)
-                }
+    huis.push(hui)
+}
+
+function moveHuis () {
+    let huisToRemove = []
+    huis.forEach(hui => {
+        hui.style.left = getPosition(hui) - huiSpeed + 'px'
+
+        if (getPosition(hui) <= -100) {
+            hui.remove()
+            huisToRemove.push(hui)
+            huisCount = huisCount + 1
+            huisCountOnScreen.textContent = huisCount
+            if (huisCount % 10 === 0 && huisCount >= -1) {
+                huiSpeed += 0.5
+                // console.log(true, huisCount, huiSpeed, getPosition(hui))
             }
-            if (huiPosition === -200) {
-                hui.remove()
-            }
-            if (collision(door, hui)) {
-                clearInterval(huiMove)
-                hui.style.opacity = '20%'
-                document.querySelectorAll('.hui').forEach(e => e.remove())
-                door.style.display = 'none'
-            }
-        }, 5)
-        
-    }
-    if(isGame) {
-        huiMove()
-    }
+        }
+        if (collision(door, hui)) {
+            gameEnd()
+        }
+    })
+    huisToRemove.forEach(hui => {
+        // console.log(true, huisCount, huiSpeed, getPosition(hui))
+        console.log(huis);
+        hui.remove()
+        huis = huis.filter(a => a != hui)
+    })
 }
 
 function getRndInteger(min, max) {
@@ -130,6 +148,7 @@ function getRndInteger(min, max) {
 }
 
 function reset() {
+    huis = []
     score = 0
     huisCount = 0
     huiSpeed = 1
@@ -143,7 +162,7 @@ function reset() {
     door.style.display = 'block'
 
     endScreen.style.display = 'none'
-    door.style.opacity = '100%'
+    
 }
 
 buttonStart.addEventListener('click', ()=> {
@@ -157,12 +176,15 @@ buttonRestart.addEventListener('click', ()=> {
 
 
 function collision (door, hui) {
-    if (Number(door.style.left.slice(0, -2)) + 30 >= Number(hui.style.left.slice(0, -2)) && Number(door.style.left.slice(0, -2))+10 <= Number(hui.style.left.slice(0, -2)) && Number(door.style.bottom.slice(0, -2)) <= Number(hui.style.height.slice(0, -2))) {
-            console.log('collision')
-            gameEnd()
-            return true   
-    }
+    let doorPosition = getPosition(door)
+    let huiPosition = getPosition(hui)
+
+    return doorPosition + 30 >= huiPosition 
+        && doorPosition + 10 <= huiPosition 
+        && Number(door.style.bottom.slice(0, -2)) <= Number(hui.style.height.slice(0, -2))   
 }
+
+
 function doorControl () {
         body.addEventListener('click', ()=>{
             if (Number(door.style.bottom.slice(0, -2)) === 0 && isGame) {
@@ -181,18 +203,19 @@ function doorControl () {
 
     
 function gameEnd() {
+    clearInterval(gameLoop)
     endScreen.style.display = 'flex'
     scoreBoard.style.display =  'none'
     gameField.style.marginTop = '33.33px'
     
-    door.style.opacity = '20%'
     
     buttonRestart.style.display = 'block'
     isGame = false
     endScreen.innerHTML = `Отакої,<br>ви зачепилися за хуй<br>Ваш рахуок: ${score}<br>Перестрибнуто членів: ${huisCount}`
     clearInterval(huiSpawn)
     clearInterval(scoreCounter)
-    return true
+    document.querySelectorAll('.hui').forEach(e => e.remove())
+    door.style.display = 'none'
 }
     
 
