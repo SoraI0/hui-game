@@ -114,3 +114,22 @@ button {
         .huis-counter, .score {
             transition: 0.2s;
         }
+
+	.stamina {
+		position: relative;
+		left: 44px;
+		width: 200px;
+		height: 20px;
+		border: rgb(255, 132, 183) 3px solid;
+		background-color: #ffbeeb;
+		border-left: none;
+		border-bottom-right-radius: 40px;
+		transition: 0.1s;
+	}
+
+		.stamina-indicator {
+			width: 100%;
+			height: 100%;
+			background-color: rgb(255, 159, 199);
+			border-bottom-right-radius: 40px;
+		}
