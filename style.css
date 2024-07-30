@@ -31,6 +31,23 @@ button {
     padding-top: 200px;
 }
 
+    .recordBoard {
+        color: white;
+        text-align: center;
+    }
+
+        .recordBoard > h2 {
+            font-weight: 400;
+        }
+
+        .score-record {
+
+        }
+
+        .huis-record {
+
+        }
+
     .game-field {
         width: 100%;
         height: 200px;
@@ -117,7 +134,7 @@ button {
 
 	.stamina {
 		position: relative;
-		left: 44px;
+		left: 43px;
 		width: 200px;
 		height: 20px;
 		border: rgb(255, 132, 183) 3px solid;

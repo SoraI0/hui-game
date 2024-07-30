@@ -1,4 +1,3 @@
-// const hui = document.querySelector('.hui')
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
 const gameField = document.querySelector('.game-field')
@@ -8,6 +7,9 @@ const huisCountOnScreen = document.querySelector('.huis-counter > span')
 const scoreCountOnScreen = document.querySelector('.score > span')
 const scoreBoard = document.querySelector('.score-board')
 const staminaInd = document.querySelector('.stamina-indicator')
+
+const scoreRecord = document.querySelector('.score-record > span')
+const huisRecord = document.querySelector('.huis-record > span')
 
 const endScreen = document.createElement('div')
 gameField.appendChild(endScreen)
@@ -27,6 +29,13 @@ endScreen.style.zIndex = '5'
 huisCountOnScreen.style.transition = '0.2s'
 scoreCountOnScreen.style.transition = '0.2s'
 
+if (!localStorage.score) {
+	scoreRecord.textContent = 0
+	huisRecord.textContent = 0
+} else {
+	scoreRecord.textContent = localStorage.score
+	huisRecord.textContent = localStorage.huisCount
+}
 
 door.style.left = '0px'
 door.style.bottom = '0px'
@@ -39,8 +48,12 @@ let huisCount = 0
 let score = 0
 let scoreCounter
 
+
+
 let huis = []
 let convs = []
+
+
 
 let gameLoop
 convCreate(0)
@@ -191,7 +204,7 @@ function doorControl() {
 	let increasingStamina
 	body.addEventListener('mousedown', () => {
 		if (Number(door.style.bottom.slice(0, -2)) === 0) {
-			if (stamina === 200) {
+			if (stamina >= 200) {
 				door.style.transition = '0.5s'
 				door.style.bottom = '120px'
 			}
@@ -205,23 +218,29 @@ function doorControl() {
 					setTimeout(() => {
 						door.style.bottom = '0px'
 					}, 500);
-					clearInterval(lossStamina)
+					clearInterval(lossStamina)	
 				}
-			}, 5)
+				// console.log(stamina);
+			}, 10)
 		}
 	})
 
 	body.addEventListener('mouseup', () => {
+		clearInterval(increasingStamina)
 		door.style.bottom = '1px'
 		setTimeout(() => {
 			door.style.bottom = '0px'
 		}, 500);
-
 		clearInterval(lossStamina)
 		increasingStamina = setInterval(() => {
-			stamina += 1
-			staminaInd.style.width = stamina + 'px'
-			if (stamina >= 200) { clearInterval(increasingStamina) }
+			if (stamina < 200) {
+				stamina += 1
+				staminaInd.style.width = stamina + 'px'
+			}
+			if (stamina === 200) {
+				clearInterval(increasingStamina)
+			}
+			// console.log(stamina);
 		}, 5)
 	})
 }
@@ -232,8 +251,6 @@ function gameEnd() {
 	endScreen.style.display = 'flex'
 	scoreBoard.style.display = 'none'
 	gameField.style.marginTop = '33.33px'
-
-
 	buttonRestart.style.display = 'block'
 	isGame = false
 	endScreen.innerHTML = `Отакої,<br>ви зачепилися за пеніс<br>Ваш рахуок: ${score}<br>Зібрано пенісів: ${huisCount}`
@@ -241,6 +258,19 @@ function gameEnd() {
 	clearInterval(scoreCounter)
 	document.querySelectorAll('.hui').forEach(e => e.remove())
 	door.style.display = 'none'
+
+	if (Number(localStorage.score) <= score ) {
+		localStorage.setItem('score', score)
+		localStorage.setItem('huisCount', huisCount)
+		scoreRecord.textContent = score
+		huisRecord.textContent = huisCount
+	} 
+	if (!Number(localStorage.score)) {
+		localStorage.setItem('score', score)
+		localStorage.setItem('huisCount', huisCount)
+		scoreRecord.textContent = localStorage.score
+		huisRecord.textContent = localStorage.huisCount
+	}
 }
 
 
