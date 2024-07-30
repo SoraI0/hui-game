@@ -141,7 +141,6 @@ function moveHuis() {
 			huisCountOnScreen.textContent = huisCount
 			if (huisCount % 10 === 0 && huisCount >= -1) {
 				huiSpeed += 0.5
-				// console.log(true, huisCount, huiSpeed, getPosition(hui))
 			}
 		}
 		if (collision(door, hui)) {
@@ -149,8 +148,6 @@ function moveHuis() {
 		}
 	})
 	huisToRemove.forEach(hui => {
-		// console.log(true, huisCount, huiSpeed, getPosition(hui))
-		console.log(huis);
 		hui.remove()
 		huis = huis.filter(a => a != hui)
 	})
