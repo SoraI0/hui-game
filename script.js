@@ -7,6 +7,9 @@ const huisCountOnScreen = document.querySelector('.huis-counter > span')
 const scoreCountOnScreen = document.querySelector('.score > span')
 const scoreBoard = document.querySelector('.score-board')
 const staminaInd = document.querySelector('.stamina-indicator')
+const form = document.querySelector('.form-username')
+const login = document.querySelector('#login')
+const game = document.querySelector('#game')
 
 const scoreRecord = document.querySelector('.score-record > span')
 const huisRecord = document.querySelector('.huis-record > span')
@@ -58,6 +61,11 @@ let convs = []
 let gameLoop
 convCreate(0)
 convCreate(600)
+
+login.addEventListener('click', ()=>{
+	form.style.display = 'none'
+	game.style.display = 'flex'
+})
 
 
 function gameStart() {

@@ -11,35 +11,43 @@
 <body>
 	<main class="container">
 		<div class="inner">
-			<div class="recordBoard">
-				<h2>Рекорд:</h2>
-				<p class="score-record">Рахунок: <span>0</span></p>
-				<p class="huis-record">Зібрано пенісів: <span>0</span></p>
+			
+			<div class="form-username">
+				<h2>Як Вас звати?</h2>
+				<input placeholder="" type="name" id="username">
+				<div class="button" id="login">Ось так.</div>
 			</div>
 
-			<div class="score-board">
-				<p class="huis-counter">Зібрано пенісів: <span>0</span></p>
-				<p class="score">Ваш рахунок: <span>0</span></p>
-			</div>
-
-			<div class="game-field">
-				<div class="stamina">
-					<div class="stamina-indicator"></div>
+			<div id="game">
+				<div class="recordBoard">
+					<h2>Рекорд:</h2>
+					<p class="score-record">Рахунок: <span>0</span></p>
+					<p class="huis-record">Зібрано пенісів: <span>0</span></p>
 				</div>
-				<!-- <img class="conv" src="./images/conv.PNG" alt=""> -->
-				<div class="door">
-					<img src="./images/door.png" alt="door">
+	
+				<div class="score-board">
+					<p class="huis-counter">Зібрано пенісів: <span>0</span></p>
+					<p class="score">Ваш рахунок: <span>0</span></p>
 				</div>
-				<!-- <div class="hui">
-                    <div class="hui__head"></div>
-                    <div class="hui__stick"></div>
-                    <div class="hui__balls"></div>
-                </div> -->
+	
+				<div class="game-field">
+					<div class="stamina">
+						<div class="stamina-indicator"></div>
+					</div>
+					<!-- <img class="conv" src="./images/conv.PNG" alt=""> -->
+					<div class="door">
+						<img src="./images/door.png" alt="door">
+					</div>
+					<!-- <div class="hui">
+						<div class="hui__head"></div>
+						<div class="hui__stick"></div>
+						<div class="hui__balls"></div>
+					</div> -->
+				</div>
+				<div class="button button-start">Розпочати</div>
+				<div class="button button-restart" style="display: none;">Почати знову</div>
 			</div>
-			<div class="button button-start">Розпочати</div>
-			<div class="button button-restart" style="display: none;">Почати знову</div>
 		</div>
-
 	</main>
 	<script src="./script.js"></script>
 </body>
