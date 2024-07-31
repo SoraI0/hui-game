@@ -21,7 +21,7 @@ endScreen.style.justifyContent = 'center'
 endScreen.style.alignItems = 'center'
 endScreen.style.textAlign = 'center'
 endScreen.style.color = 'white'
-endScreen.style.fontSize = '35px'
+endScreen.style.fontSize = '25px'
 endScreen.style.backgroundColor = 'rgb(252, 90, 90)'
 endScreen.style.transition = '0.5s'
 endScreen.style.zIndex = '5'
@@ -115,6 +115,7 @@ function moveConvs() {
 function huiCreate() {
 	const hui = document.createElement('div')
 	hui.classList.add('hui')
+	// hui.innerHTML = `<img src="./images/purple-stickman-dancing.gif" alt="DICK :)">`
 	hui.innerHTML = `<img src="./images/${getRndInteger(1, 6)}.png" alt="DICK :)">`
 
 
@@ -205,7 +206,6 @@ function doorControl() {
 				door.style.transition = '0.5s'
 				door.style.bottom = '120px'
 			}
-
 			clearInterval(increasingStamina)
 			lossStamina = setInterval(() => {
 				stamina -= 1
@@ -217,11 +217,9 @@ function doorControl() {
 					}, 500);
 					clearInterval(lossStamina)	
 				}
-				// console.log(stamina);
 			}, 10)
 		}
 	})
-
 	body.addEventListener('mouseup', () => {
 		clearInterval(increasingStamina)
 		door.style.bottom = '1px'
@@ -237,7 +235,6 @@ function doorControl() {
 			if (stamina === 200) {
 				clearInterval(increasingStamina)
 			}
-			// console.log(stamina);
 		}, 5)
 	})
 }
@@ -248,7 +245,7 @@ function gameEnd() {
 	endScreen.style.display = 'flex'
 	scoreBoard.style.display = 'none'
 	gameField.style.marginTop = '33.33px'
-	buttonRestart.style.display = 'block'
+	buttonRestart.style.display = 'flex'
 	isGame = false
 	endScreen.innerHTML = `Отакої,<br>ви зачепилися за пеніс<br>Ваш рахуок: ${score}<br>Зібрано пенісів: ${huisCount}`
 	clearInterval(huiSpawn)
