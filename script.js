@@ -1,3 +1,5 @@
+import {saveScore, saveUser} from "./database.js"
+
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
 const gameField = document.querySelector('.game-field')
@@ -10,6 +12,7 @@ const staminaInd = document.querySelector('.stamina-indicator')
 const form = document.querySelector('.form-username')
 const login = document.querySelector('#login')
 const game = document.querySelector('#game')
+
 
 const scoreRecord = document.querySelector('.score-record > span')
 const huisRecord = document.querySelector('.huis-record > span')
@@ -62,11 +65,18 @@ let gameLoop
 convCreate(0)
 convCreate(600)
 
+if(localStorage.username != undefined) {
+	form.style.display = 'none'
+	game.style.display = 'flex'
+}
 login.addEventListener('click', ()=>{
 	form.style.display = 'none'
 	game.style.display = 'flex'
-})
 
+	const username = document.querySelector('#username').value
+	localStorage.setItem('username', username)
+	saveUser(username)
+})
 
 function gameStart() {
 	reset()
@@ -266,12 +276,14 @@ function gameEnd() {
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = score
 		huisRecord.textContent = huisCount
+		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	} 
 	if (!Number(localStorage.score)) {
 		localStorage.setItem('score', score)
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = localStorage.score
 		huisRecord.textContent = localStorage.huisCount
+		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
 }
 
