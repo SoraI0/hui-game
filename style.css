@@ -192,7 +192,32 @@ body {
 
 
     .user-score {
-        width: 150px;
+        width: 250px;
         display: flex;
         justify-content: space-between;
+        border-bottom: 1px solid white;
+    }
+
+
+.form-username {
+    color: white;
+}
+
+    #username {
+        margin-top: 20px;
+        width: 300px;
+        height: 40px;
+        font-size: 25px;
+        text-align: center;    
+       
+    }
+
+    #username:focus {
+        outline: none;
+    }
+    .inscr {
+        font-size: 13px;
+    }
+    #login {
+
     }

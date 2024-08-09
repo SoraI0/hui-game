@@ -1,4 +1,4 @@
-import {saveScore, saveUser, getRecordBoard, sortedUsers, isLog} from "./database.js"
+import {saveScore, saveUser, getRecordBoard} from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -67,24 +67,38 @@ convCreate(600)
 
 getRecordBoard(recordBoard)
 
+body.oncontextmenu = function(event) {
+    event.preventDefault();
+    event.stopPropagation(); // not necessary in my case, could leave in case stopImmediateProp isn't available? 
+    event.stopImmediatePropagation();
+    return false;
+};
 
-if(localStorage.username != undefined || isLog === null) {
+
+if(localStorage.username != undefined) {
 	form.style.display = 'none'
 	game.style.display = 'flex'
-
+} else {
+	form.style.display = 'flex'
+	game.style.display = 'none'
 }
+
 login.addEventListener('click', ()=>{
-	form.style.display = 'none'
-	game.style.display = 'flex'
-
-
 	const username = document.querySelector('#username').value
-	localStorage.setItem('username', username)
-	saveUser(username)
+	console.log(username.length);
+	
+	if(username.length >= 3) {
+		form.style.display = 'none'
+		game.style.display = 'flex'
+	
+
+		localStorage.setItem('username', username)
+		saveUser(username)
+	}
+	
 })
 
 function gameStart() {
-	console.log(sortedUsers);
 	
 	reset()
 	isGame = true
@@ -225,7 +239,8 @@ function doorControl() {
 	let stamina = 200
 	let lossStamina
 	let increasingStamina
-	body.addEventListener('mousedown', () => {
+
+	function handleDownEvent () {
 		if (Number(door.style.bottom.slice(0, -2)) === 0) {
 			if (stamina >= 200) {
 				door.style.transition = '0.5s'
@@ -244,8 +259,8 @@ function doorControl() {
 				}
 			}, 10)
 		}
-	})
-	body.addEventListener('mouseup', () => {
+	}
+	function handleUpEvent(){
 		clearInterval(increasingStamina)
 		door.style.bottom = '1px'
 		setTimeout(() => {
@@ -261,7 +276,13 @@ function doorControl() {
 				clearInterval(increasingStamina)
 			}
 		}, 5)
-	})
+	}
+
+	body.addEventListener('mousedown', handleDownEvent)
+	body.addEventListener('touchstart', handleDownEvent)
+	
+	body.addEventListener('mouseup', handleUpEvent)
+	body.addEventListener('touchend', handleUpEvent)
 }
 
 
@@ -293,13 +314,3 @@ function gameEnd() {
 		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
 }
-
-
-
-
-
-
-
-
-
-

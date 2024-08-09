@@ -50,28 +50,20 @@ export function getRecordBoard(board){
         sortedUsers = usersArr.sort((u1, u2) => {
             return  u2.score - u1.score;
         })
+
+        let numScore = 1
         sortedUsers.forEach(el=>{
             el = Object.values(el)
             let userRecord = document.createElement('div')
-            userRecord.innerHTML = `<div class="user-score"><span class="score-username">${el[2]}: </span><span class="score-score"> ${el[1]}</span></div>`
+            userRecord.innerHTML = `<div class="user-score"><span class="score-username">${numScore}: ${el[2]}: </span><span class="score-score"> ${el[1]}</span></div>`
             board.appendChild(userRecord)
-            console.log(userRecord);
+            numScore++
         })
         // console.log(usersArr);
         
     })
 }
 
-export function isLog(localUsername) {
-    const db = getDatabase();
-    const UserRef = ref(db, `Users/${localUsername}`);
-
-    onValue(UserRef, (snapshot) => {
-        const userdata = snapshot.val();
-        return userdata
-    })
-
-}
 
 
 
