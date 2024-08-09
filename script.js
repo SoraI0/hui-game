@@ -1,4 +1,4 @@
-import {saveScore, saveUser} from "./database.js"
+import {saveScore, saveUser, getRecordBoard, sortedUsers, isLog} from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -12,6 +12,7 @@ const staminaInd = document.querySelector('.stamina-indicator')
 const form = document.querySelector('.form-username')
 const login = document.querySelector('#login')
 const game = document.querySelector('#game')
+const recordBoard = document.querySelector('.record-box')
 
 
 const scoreRecord = document.querySelector('.score-record > span')
@@ -47,7 +48,6 @@ door.style.left = '0px'
 door.style.bottom = '0px'
 let isGame
 let huiSpawn
-let isJump = true
 let huiSpeed = 1
 
 let huisCount = 0
@@ -65,13 +65,18 @@ let gameLoop
 convCreate(0)
 convCreate(600)
 
-if(localStorage.username != undefined) {
+getRecordBoard(recordBoard)
+
+
+if(localStorage.username != undefined || isLog === null) {
 	form.style.display = 'none'
 	game.style.display = 'flex'
+
 }
 login.addEventListener('click', ()=>{
 	form.style.display = 'none'
 	game.style.display = 'flex'
+
 
 	const username = document.querySelector('#username').value
 	localStorage.setItem('username', username)
@@ -79,6 +84,8 @@ login.addEventListener('click', ()=>{
 })
 
 function gameStart() {
+	console.log(sortedUsers);
+	
 	reset()
 	isGame = true
 

@@ -37,6 +37,11 @@ body {
 
 .inner {
     margin-top: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
 }
 
     .form-username {
@@ -175,3 +180,19 @@ body {
 			background-color: rgb(255, 159, 199);
 			border-bottom-right-radius: 40px;
 		}
+
+
+
+.records {
+    text-align: center;
+    margin-top: 50px;
+    color: white;
+
+}
+
+
+    .user-score {
+        width: 150px;
+        display: flex;
+        justify-content: space-between;
+    }
