@@ -314,3 +314,8 @@ function gameEnd() {
 		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
 }
+
+// disable userselect for iphone
+body.ontouchstart = function(e) {
+	e.preventDefault();
+}

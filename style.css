@@ -15,6 +15,7 @@
 body {
     background-color: rgb(77, 77, 77);
     user-select: none;
+    -webkit-user-select: none;
     font-family: 'CustomHeading';
 }
 
@@ -129,26 +130,6 @@ body {
                 width: 100%;
             } 
 
-            /* .hui__head{
-                width: 30px;
-                height: 30px;
-                background-color: rgb(247, 65, 101);
-                border-radius: 20px 20px 0 0;
-            }
-            
-            .hui__stick{
-                width: 30px;
-                height: 30px;
-                background-color: var(--hui-color);
-            }
-
-            .hui__balls {
-                width: 90px;
-                height: 30px;
-                background-color: var(--hui-color);
-                border-radius: 20px;
-            } */
-
     .score-board {
         transition: 0.2s;
         width: 100%;
@@ -162,24 +143,39 @@ body {
             transition: 0.2s;
         }
 
-	.stamina {
-		position: relative;
+    .stamina-background {
+        left: 43px;
+        width: 200px;
+        height: 20px;
+        position: relative;
+        background-color: #fa7e7c;
+        z-index: 1;
+    }
+	
+    .stamina-indicator {
+        left: 43px;
+        width: 200px;
+        height: 20px;
+        position: absolute;
+        background-color: #ff5857;
+        z-index: 1;
+    }
+
+    .stamina {
+		position: absolute;
 		left: 43px;
 		width: 200px;
 		height: 20px;
-		border: rgb(255, 132, 183) 3px solid;
-		background-color: #ffbeeb;
+
 		border-left: none;
-		border-bottom-right-radius: 40px;
 		transition: 0.1s;
+        z-index: 2;
 	}
 
-		.stamina-indicator {
-			width: 100%;
-			height: 100%;
-			background-color: rgb(255, 159, 199);
-			border-bottom-right-radius: 40px;
-		}
+        .stamina img {
+            width: 100%;
+        }
+
 
 
 
@@ -215,9 +211,11 @@ body {
     #username:focus {
         outline: none;
     }
+
     .inscr {
         font-size: 13px;
     }
+
     #login {
 
     }
