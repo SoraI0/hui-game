@@ -1,4 +1,4 @@
-import {saveScore, saveUser, getRecordBoard} from "./database.js"
+import {saveScore, saveUser, getRecordBoard, sortedUsers} from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -85,15 +85,20 @@ if(localStorage.username != undefined) {
 
 login.addEventListener('click', ()=>{
 	const username = document.querySelector('#username').value
-	console.log(username.length);
 	
-	if(username.length >= 3) {
+	if(username.length >= 3 && username.length <= 15) {
 		form.style.display = 'none'
 		game.style.display = 'flex'
 	
 
 		localStorage.setItem('username', username)
 		saveUser(username)
+	} else {
+		const inscr = document.querySelector('.inscr')
+		console.log(inscr.style.fontSize);
+
+		inscr.style.color = 'red'
+		inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
 	}
 	
 })
@@ -108,8 +113,8 @@ function gameStart() {
 	huiSpawn = setInterval(() => {
 		setTimeout(() => {
 			huiCreate()
-		}, getRndInteger(1000, 3000))
-	}, 3000)
+		}, getRndInteger(0, 4000+huiSpeed*10*huisCount))
+	}, 2000)
 
 	scoreCounter = setInterval(() => {
 		score = score + 1 * huisCount
@@ -243,7 +248,7 @@ function doorControl() {
 	function handleDownEvent () {
 		if (Number(door.style.bottom.slice(0, -2)) === 0) {
 			if (stamina >= 200) {
-				door.style.transition = '0.5s'
+				door.style.transition = '0.2s'
 				door.style.bottom = '120px'
 			}
 			clearInterval(increasingStamina)
@@ -254,7 +259,7 @@ function doorControl() {
 					door.style.bottom = '1px'
 					setTimeout(() => {
 						door.style.bottom = '0px'
-					}, 500);
+					}, 200);
 					clearInterval(lossStamina)	
 				}
 			}, 10)
@@ -265,7 +270,7 @@ function doorControl() {
 		door.style.bottom = '1px'
 		setTimeout(() => {
 			door.style.bottom = '0px'
-		}, 500);
+		}, 200);
 		clearInterval(lossStamina)
 		increasingStamina = setInterval(() => {
 			if (stamina < 200) {
@@ -313,6 +318,7 @@ function gameEnd() {
 		huisRecord.textContent = localStorage.huisCount
 		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
+
 }
 
 // disable userselect for iphone

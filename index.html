@@ -12,48 +12,57 @@
 	<main class="container">
 		<div class="inner">
 			
-			<div class="form-username">
-				<h2>Як Вас звати?</h2>
+			<div class="form-username ">
+				<h2 class="text-shadow ">Як Вас звати?</h2>
 				<input placeholder="" type="name" id="username" pattern="[A-Za-z]{3}">
-				<div class="inscr">(мінімум 3 символи)</div>
+				<div class="inscr" style="font-size: 13px;">(мінімум 3 символи, максимум 15)</div>
 				<button class="button" id="login">Ось так.</button>
 			</div>
 
-			<div id="game">
+			<div class="text-shadow" id="game">
+				<div class="records">
+					<h2>Топ</h2>
+					<div class="record-box"></div>
+				</div>
+
+				<div class="game">
+					<h1 class="game-name">╭ᑎ╮Фабрика Пенісів╭ᑎ╮</h1>
+					<div class="score-board">
+						<p class="huis-counter">Зібрано пенісів: <span>0</span></p>
+						<p class="score">Ваш рахунок: <span>0</span></p>
+					</div>
+		
+					<div class="game-field">
+						<div class="stamina-background"></div>
+						<div class="stamina-indicator"></div>
+						<div class="stamina">
+							<img src="./images/stamina.png" alt="">
+						</div>
+						<!-- <img class="conv" src="./images/conv.PNG" alt=""> -->
+						<div class="door">
+							<img src="./images/door.png" alt="door">
+						</div>
+						<div class="conv-background">
+							<img src="./images/conv-background.png" alt="">
+						</div>
+						<!-- <div class="hui">
+							<div class="hui__head"></div>
+							<div class="hui__stick"></div>
+							<div class="hui__balls"></div>
+						</div> -->
+					</div>
+					<div class="button button-start">Розпочати</div>
+					<div class="button button-restart" style="display: none;">Почати знову</div>
+				</div>
+				
 				<div class="recordBoard">
-					<h2>Рекорд:</h2>
+					<h2 class="user-record">Твій рекорд</h2>
 					<p class="score-record">Рахунок: <span>0</span></p>
 					<p class="huis-record">Зібрано пенісів: <span>0</span></p>
 				</div>
-	
-				<div class="score-board">
-					<p class="huis-counter">Зібрано пенісів: <span>0</span></p>
-					<p class="score">Ваш рахунок: <span>0</span></p>
-				</div>
-	
-				<div class="game-field">
-					<div class="stamina-background"></div>
-					<div class="stamina-indicator"></div>
-					<div class="stamina">
-						<img src="./images/stamina.png" alt="">
-					</div>
-					<!-- <img class="conv" src="./images/conv.PNG" alt=""> -->
-					<div class="door">
-						<img src="./images/door.png" alt="door">
-					</div>
-					<!-- <div class="hui">
-						<div class="hui__head"></div>
-						<div class="hui__stick"></div>
-						<div class="hui__balls"></div>
-					</div> -->
-				</div>
-				<div class="button button-start">Розпочати</div>
-				<div class="button button-restart" style="display: none;">Почати знову</div>
 			</div>
-			<div class="records">
-				<h2>Топ:</h2>
-				<div class="record-box"></div>
-			</div>
+				
+			
 		</div>
 	</main>
 	

@@ -16,12 +16,22 @@ const app = initializeApp(firebaseConfig);
 import {getDatabase, ref, child, get, set, update, remove, onValue} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
 
 const firebase = getDatabase();
+let userIP
+fetch('https://api.ipify.org?format=json')
+    .then(response => response.json())
+    .then(data => {
+        userIP = data.ip
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
 
 export function saveUser(username) {
     set(ref(firebase, 'Users/'+ username), {
         huis: 0,
         score: 0,
-        username: username
+        username: username,
+        ip: userIP
     }).then(()=>{
         console.log('Успішно збережено', username); 
     })
@@ -31,7 +41,8 @@ export function saveScore(username, huis, score) {
     set(ref(firebase, 'Users/'+ username), {
         huis: huis,
         score: score,
-        username: username
+        username: username,
+        ip: userIP
     }).then(()=>{
         console.log('Успішно збережено', huis, ' ', score); 
     })
@@ -55,11 +66,19 @@ export function getRecordBoard(board){
         sortedUsers.forEach(el=>{
             el = Object.values(el)
             let userRecord = document.createElement('div')
-            userRecord.innerHTML = `<div class="user-score"><span class="score-username">${numScore}: ${el[2]}: </span><span class="score-score"> ${el[1]}</span></div>`
+            if (numScore <= 15) {
+                userRecord.innerHTML = `<div class="user-score"><span class="score-username">${numScore}. ${el[3]}: </span><span class="score-score"> ${el[2]}╭ᑎ╮${el[0]}</span></div>`
+            } else if (el[3] === localStorage.username) {
+                userRecord.innerHTML = `<div>...</div><div class="user-score"><span class="score-username">${numScore}. ${el[3]}: </span><span class="score-score"> ${el[2]}╭ᑎ╮${el[0]}</span></div>`
+            }
+            
             board.appendChild(userRecord)
             numScore++
+
+        
         })
         // console.log(usersArr);
+        
         
     })
 }

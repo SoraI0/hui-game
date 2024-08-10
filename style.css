@@ -1,8 +1,11 @@
 * {
     margin: 0;
     padding: 0;
+    
 }
-
+html {
+    height: 100%;
+}
 @font-face {
     font-family: 'CustomHeading';
     src: url('./fonts/opendyslexic-0.91.12/compiled/OpenDyslexic-Regular.otf') format('embedded-opentype'), /* Internet Explorer */
@@ -11,12 +14,19 @@
          url('./fonts/opendyslexic-0.91.12/compiled/OpenDyslexic-Regular.otf') format('truetype'),          /* Safari, Android, iOS */
          url('./fonts/opendyslexic-0.91.12/compiled/OpenDyslexic-Regular.otf') format('svg');               /* Legacy iOS */
 }
-
 body {
-    background-color: rgb(77, 77, 77);
+    /* background-color: rgb(77, 77, 77); */
+    background: rgb(0,0,0);
+background: radial-gradient(circle, rgb(77, 77, 77) 0%, rgba(91,32,32,1) 83%, rgba(252,90,90,1) 100%);
+
+    background-size:cover;
     user-select: none;
     -webkit-user-select: none;
     font-family: 'CustomHeading';
+}
+
+.text-shadow {
+    text-shadow: #ff5857 1px 0 10px;;
 }
 
 .button {
@@ -26,10 +36,15 @@ body {
     margin-top: 30px;
     cursor: pointer;
     background-color: rgb(252, 90, 90);
+    border: none;
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.button:hover {
+    box-shadow: 0px 0px 15px rgb(252, 90, 90);
 }
 
 .container {
@@ -54,21 +69,30 @@ body {
     }
 
     #game {
-        width: 600px;
+        width: 100%;
         display: flex;
-        flex-direction: column;
-        margin: 0 auto;
+        justify-content: space-around;
         align-items: center;
+        margin: 0 auto;
         display: none;
     }
 
+    .game-name {
+        text-transform: uppercase;
+        font-size: 32px;
+        margin-bottom: 100px;
+        color: white;
+    }
+
     .recordBoard {
+        width: 250px;
         color: white;
         text-align: center;
     }
 
         .recordBoard > h2 {
-            font-weight: 400;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
 
         .score-record {
@@ -89,9 +113,17 @@ body {
         background-image: url('./images/background.png');
         background-size: contain;
         z-index: -1;
+        box-shadow: 0px 0px 15px rgb(252, 90, 90);
     }
 
         .conv {
+            width: 100%;
+            height: 28%;
+            align-self: flex-end;
+            position: absolute;
+            z-index: 0;
+        }
+        .conv-background {
             width: 100%;
             height: 28%;
             align-self: flex-end;
@@ -180,15 +212,19 @@ body {
 
 
 .records {
+    width: 250px;
     text-align: center;
     margin-top: 50px;
     color: white;
-
 }
+    .records h2 {
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
 
 
     .user-score {
-        width: 250px;
+        width: 100%;
         display: flex;
         justify-content: space-between;
         border-bottom: 1px solid white;
@@ -213,9 +249,37 @@ body {
     }
 
     .inscr {
-        font-size: 13px;
+        
     }
 
     #login {
 
     }
+
+    .game {
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+@media screen and (max-width: 1200px) {
+    #game {
+        flex-direction: column;
+        margin-top: 200px;
+    }
+
+    .game {
+        order: 0;
+    }
+
+    .recordBoard {
+        margin-top: 50px;
+        order: 1;
+    }
+
+    .records {
+        order: 2;
+    }
+}
