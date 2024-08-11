@@ -185,7 +185,7 @@ function moveHuis() {
 			huisCount = huisCount + 1
 			huisCountOnScreen.textContent = huisCount
 			if (huisCount % 10 === 0 && huisCount >= -1) {
-				huiSpeed += 0.5
+				huiSpeed += 0.2
 			}
 		}
 		if (collision(door, hui)) {

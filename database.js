@@ -66,7 +66,7 @@ export function getRecordBoard(board){
         sortedUsers.forEach(el=>{
             el = Object.values(el)
             let userRecord = document.createElement('div')
-            if (numScore <= 15) {
+            if (numScore <= 10) {
                 userRecord.innerHTML = `<div class="user-score"><span class="score-username">${numScore}. ${el[3]}: </span><span class="score-score"> ${el[2]}╭ᑎ╮${el[0]}</span></div>`
             } else if (el[3] === localStorage.username) {
                 userRecord.innerHTML = `<div>...</div><div class="user-score"><span class="score-username">${numScore}. ${el[3]}: </span><span class="score-score"> ${el[2]}╭ᑎ╮${el[0]}</span></div>`
