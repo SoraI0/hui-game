@@ -5,13 +5,22 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="./style.css">
-	<title>Kub Strybun</title>
+	<title>Фабрика Пенісів</title>
+	<link rel="icon" type="image/x-icon" href="./images/2.png">
 </head>
 
 <body>
+	<div style="display: none;" class="texture-load">
+		<img src="./images/1.png" alt="">
+		<img src="./images/2.png" alt="">
+		<img src="./images/3.png" alt="">
+		<img src="./images/4.png" alt="">
+		<img src="./images/5.png" alt="">
+		<img src="./images/6.png" alt="">
+	</div>
 	<main class="container">
 		<div class="inner">
-			
+
 			<div class="form-username ">
 				<h2 class="text-shadow ">Як Вас звати?</h2>
 				<input placeholder="" type="name" id="username" pattern="[A-Za-z]{3}">
@@ -31,9 +40,10 @@
 						<p class="huis-counter">Зібрано пенісів: <span>0</span></p>
 						<p class="score">Ваш рахунок: <span>0</span></p>
 					</div>
-		
+
 					<div class="game-field">
 						<div class="stamina-background"></div>
+						<div class="stamina-background-lowStamina"></div>
 						<div class="stamina-indicator"></div>
 						<div class="stamina">
 							<img src="./images/stamina.png" alt="">
@@ -54,20 +64,21 @@
 					<div class="button button-start">Розпочати</div>
 					<div class="button button-restart" style="display: none;">Почати знову</div>
 				</div>
-				
+
 				<div class="recordBoard">
 					<h2 class="user-record">Твій рекорд</h2>
 					<p class="score-record">Рахунок: <span>0</span></p>
 					<p class="huis-record">Зібрано пенісів: <span>0</span></p>
 				</div>
 			</div>
-				
-			
+
+
 		</div>
 	</main>
-	
+
 </body>
 
 <script src="./database.js" type="module"></script>
 <script src="./script.js" type="module"></script>
+
 </html>
