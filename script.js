@@ -1,4 +1,4 @@
-import { saveScore, saveUser, getRecordBoard, sortedUsers } from "./database.js"
+import { saveScore, saveRecordScore, saveUser, getRecordBoard, sortedUsers } from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -74,7 +74,6 @@ body.oncontextmenu = function (event) {
 	return false;
 };
 
-
 if (localStorage.username != undefined) {
 	form.style.display = 'none'
 	game.style.display = 'flex'
@@ -83,22 +82,39 @@ if (localStorage.username != undefined) {
 	game.style.display = 'none'
 }
 
+
 login.addEventListener('click', () => {
 	const username = document.querySelector('#username').value
+	const inscr = document.querySelector('.inscr')
+	let sameName = false
 
-	if (username.length >= 3 && username.length <= 15) {
+	sortedUsers.forEach(el => {
+		el = Object.values(el)
+		if (el[4] === username) {
+			console.log('dawda');
+			sameName = true
+			inscr.textContent = "(таке ім'я вже існує)"
+			inscr.style.color = 'red'
+			inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
+		}
+		
+	})
+	
+
+	if (username.length >= 3 && username.length <= 15 && !sameName) {
 		form.style.display = 'none'
 		game.style.display = 'flex'
 
 
 		localStorage.setItem('username', username)
 		saveUser(username)
-	} else {
-		const inscr = document.querySelector('.inscr')
-
+	} else if (username.length < 3 || username.length > 15) {
+		inscr.textContent = '(мінімум 3 символи, максимум 15)'
 		inscr.style.color = 'red'
 		inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
-	}
+	} 
+
+	
 
 })
 
@@ -112,7 +128,7 @@ function gameStart() {
 	huiSpawn = setInterval(() => {
 		setTimeout(() => {
 			huiCreate()
-		}, getRndInteger(0, 4000 + convSpeed * 10 * huisCount))
+		}, getRndInteger(0, 4000 + convSpeed * 100 + huisCount * 10))
 	}, 2000)
 
 	scoreCounter = setInterval(() => {
@@ -247,6 +263,8 @@ function collision(door, hui) {
 }
 
 function gameEnd() {
+	saveScore(score, huisCount)
+	getRecordBoard(recordBoard)
 	isGame = false
 	clearInterval(gameLoop)
 	endScreen.style.display = 'flex'
@@ -265,15 +283,16 @@ function gameEnd() {
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = score
 		huisRecord.textContent = huisCount
-		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
+		saveRecordScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
 	if (!Number(localStorage.score)) {
 		localStorage.setItem('score', score)
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = localStorage.score
 		huisRecord.textContent = localStorage.huisCount
-		saveScore(localStorage.username, localStorage.huisCount, localStorage.score)
+		saveRecordScore(localStorage.username, localStorage.huisCount, localStorage.score)
 	}
+
 }
 
 // disable userselect for iphone
@@ -347,4 +366,7 @@ function doorControl() {
 	body.addEventListener('mouseup', handleUpEvent);
 	body.addEventListener('touchend', handleUpEvent);
 }
+
+
+	
 
