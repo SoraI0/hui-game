@@ -276,38 +276,43 @@ body {
         width: 100%;
     }
 
-        thead {
-
-        }
-
-        tbody {
-
-        }
-
-            .t-pos {
-                text-align: left;
+        .record-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }   
+            .table-head {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
             }
 
-            .t-name {
-                margin-left: 10px;
-                text-align: left;
+            .user-score {
+                border-bottom: 1px solid white;
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
             }
 
-            .t-huis {
+                .t-pos {
+                    flex: 1 1;
+                    text-align: left;
+                }
 
-            } 
+                .t-name {
+                    flex: 3 3;
+                    text-align: left;
+                }
 
-            .t-score {
+                .t-huis {
+                    flex: 2 2;
+                    text-align: center;
+                }
 
-            }
-
-    .user-score {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid white;
-    }
-
+                .t-score {
+                    flex: 2 2;
+                    text-align: center;
+                }
 
 .form-username {
     color: white;

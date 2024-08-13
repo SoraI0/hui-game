@@ -1,4 +1,4 @@
-import { saveScore, saveRecordScore, saveUser, getRecordBoard, sortedUsers } from "./database.js"
+import { saveScore, saveRecordScore, saveUser, getRecordBoard, sortedUsers, updateScores} from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -35,6 +35,8 @@ endScreen.style.zIndex = '5'
 
 huisCountOnScreen.style.transition = '0.2s'
 scoreCountOnScreen.style.transition = '0.2s'
+
+
 
 if (!localStorage.score) {
 	scoreRecord.textContent = 0
@@ -91,7 +93,7 @@ login.addEventListener('click', () => {
 	sortedUsers.forEach(el => {
 		el = Object.values(el)
 		if (el[4] === username) {
-			console.log('dawda');
+			//console.log('dawda');
 			sameName = true
 			inscr.textContent = "(таке ім'я вже існує)"
 			inscr.style.color = 'red'
@@ -101,13 +103,14 @@ login.addEventListener('click', () => {
 	})
 	
 
-	if (username.length >= 3 && username.length <= 15 && !sameName) {
+	if (username.length >= 3 && username.length <= 15 && !sameName ) {
 		form.style.display = 'none'
 		game.style.display = 'flex'
 
-
 		localStorage.setItem('username', username)
 		saveUser(username)
+		updateScores(localStorage.username)
+		window.location.reload();
 	} else if (username.length < 3 || username.length > 15) {
 		inscr.textContent = '(мінімум 3 символи, максимум 15)'
 		inscr.style.color = 'red'
@@ -283,14 +286,14 @@ function gameEnd() {
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = score
 		huisRecord.textContent = huisCount
-		saveRecordScore(localStorage.username, localStorage.huisCount, localStorage.score)
+		saveRecordScore(localStorage.username, huisCount, score)
 	}
 	if (!Number(localStorage.score)) {
 		localStorage.setItem('score', score)
 		localStorage.setItem('huisCount', huisCount)
 		scoreRecord.textContent = localStorage.score
 		huisRecord.textContent = localStorage.huisCount
-		saveRecordScore(localStorage.username, localStorage.huisCount, localStorage.score)
+		saveRecordScore(localStorage.username, huisCount, score)
 	}
 
 }

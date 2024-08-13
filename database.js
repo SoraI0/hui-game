@@ -17,9 +17,9 @@ import { getDatabase, ref, child, get, set, update, remove, onValue, serverTimes
 
 const firebase = getDatabase();
 
-console.log();
-
 let userIP
+
+getDatabase
 
 fetch('https://api.ipify.org?format=json')
 	.then(response => response.json())
@@ -37,7 +37,7 @@ export function saveUser(username) {
 		username: username,
 		ip: userIP
 	}).then(() => {
-		console.log('Успішно збережено', username);
+		//console.log('Успішно збережено', username);
 	})
 
 	set(ref(firebase, 'Users/' + localStorage.username + `/Scores/` + 0), {
@@ -45,7 +45,7 @@ export function saveUser(username) {
 		huis: 0,
 		time: serverTimestamp()
 	}).then(() => {
-		console.log('Час успішно збережено');
+		//console.log('Час успішно збережено');
 	})
 }
 
@@ -55,12 +55,10 @@ export function updateScores(username) {
 		huis: 0,
 		time: serverTimestamp()	
 	}).then(() => {
-		console.log('Успішно збережено', 0, ' ', 0);
+		//console.log('Успішно збережено', 0, ' ', 0);
 	})
 	
 }
-
-updateScores(localStorage.username)
 
 
 export function saveRecordScore(username, huis, score) {
@@ -70,7 +68,7 @@ export function saveRecordScore(username, huis, score) {
 		username: username,
 		ip: userIP,		
 	}).then(() => {
-		console.log('Успішно збережено', huis, ' ', score);
+		//console.log('Успішно збережено', huis, ' ', score);
 	})
 	
 }
@@ -89,14 +87,14 @@ export function getRecordBoard(board) {
 		scoreHistory.innerHTML = ' '
 		let scores = snapshot.val();
 		let userScoresArr = Object.values(scores)
-		let scoresCount = userScoresArr.length - 1
+		let scoresCount = userScoresArr.length
 		if (scoresCount <= 0 ) {
 			scoreHistory.textContent = 'Ви ще не збирали пеніси'
 		}
 		let sortedScores = userScoresArr.sort((u1, u2) => {
 			return u2.time - u1.time;
 		})
-		console.log(sortedScores);
+		//console.log(sortedScores);
 		sortedScores.forEach(el => {
 			el = Object.values(el)
 			let userScore = document.createElement('div')
@@ -124,13 +122,14 @@ export function getRecordBoard(board) {
 		let numScore = 1
 		sortedUsers.forEach(el => {
 			el = Object.values(el)
-			let userRecord = document.createElement('tr')
+			let userRecord = document.createElement('div')
 			if (numScore <= 10) {
 				if (el[4] === localStorage.username) { userScoreOutline = 'style="text-shadow: #fff 1px 0 10px;"' }
-				userRecord.innerHTML = `<tr ${userScoreOutline} class="user-score"><td class="t-pos">${numScore}.</td><td class="t-name"> ${el[4]}: </td><td class="t-huis"> ${el[1]}╭ᑎ╮</td><td class="t-score">${el[3]}</td></tr>`
+				userRecord.innerHTML = `<div class="user-score" ${userScoreOutline}><div class="t-pos">${numScore}.</div><div class="t-name"> ${el[4]}: </div><div class="t-huis"> ${el[1]}╭ᑎ╮</div><div class="t-score">${el[3]}</div></div>`
 				userScoreOutline = ''
 			} else if (el[4] === localStorage.username) {
-				userRecord.innerHTML = `<tr>...</tr><tr ${userScoreOutline} class="user-score"><td class="score-username">${numScore}. ${el[4]}: </td><td class="score-score"> ${el[1]}╭ᑎ╮</td></td>${el[3]}</td></tr>`
+				userScoreOutline = 'style="text-shadow: #fff 1px 0 10px;"' 
+				userRecord.innerHTML = `...   <div class="user-score" ${userScoreOutline}><div class="t-pos" >${numScore}.</div><div class="t-name" > ${el[4]}: </div><div class="t-huis"> ${el[1]}╭ᑎ╮</div><div class="t-score">${el[3]}</div></div>`
 				userScoreOutline = ''
 			}
 
@@ -149,31 +148,49 @@ export function getRecordBoard(board) {
 	})
 }
 
-console.log();
-
 export function saveScore(score, huis) {
 	set(ref(firebase, 'Users/' + localStorage.username + `/Scores/` + score), {
 		score: score,
 		huis: huis,
 		time: serverTimestamp()
 	}).then(() => {
-		console.log('Час успішно збережено');
+		//console.log('Час успішно збережено');
 	})
 }
 
 
-// function convertDate(time) {
-// 	//time should be server timestamp seconds only
-// 	let dateInMillis = time * 1000
-// 	let date = new Date(dateInMillis)
-// 	let myDate = date.toLocaleDateString()
-// 	let myTime = date.toLocaleTimeString()
-// 	myDate = myDate.replaceAll('/', '-')
-// 	return myDate + " " + myTime
+
+
+delete localStorage.username
+delete localStorage.score
+delete localStorage.huisCount
+
+
+
+
+
+//  export function checkUserInDB() {
+// 	if (typeof(localStorage.username) !== 'undefined') {
+// 		const Users = ref(firebase, 'Users/');
+// 		let userInDB = true
+// 		console.log('ku');
+// 		let snapUsers
+// 		onValue(Users, (snapshot) => {
+// 			snapUsers = snapshot.val();
+// 			snapUsers = Object.values(snapUsers)
+// 			for (let user = 0; user < snapUsers.length; user++) {
+// 				if(snapUsers[user] === localStorage.username) {
+// 					userInDB = true
+// 					break
+// 				} else {
+// 					userInDB = false
+// 				}
+// 			}
+// 			if (userInDB === false) {
+// 				delete localStorage.username
+// 			}
+// 		})
+		
+		
+// 	}
 // }
-
-// console.log();
-
-
-
-
