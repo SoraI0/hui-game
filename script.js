@@ -79,6 +79,7 @@ body.oncontextmenu = function (event) {
 if (localStorage.username != undefined) {
 	form.style.display = 'none'
 	game.style.display = 'flex'
+
 } else {
 	form.style.display = 'flex'
 	game.style.display = 'none'

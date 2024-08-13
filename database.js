@@ -87,7 +87,7 @@ export function getRecordBoard(board) {
 		scoreHistory.innerHTML = ' '
 		let scores = snapshot.val();
 		let userScoresArr = Object.values(scores)
-		let scoresCount = userScoresArr.length
+		let scoresCount = userScoresArr.length - 1
 		if (scoresCount <= 0 ) {
 			scoreHistory.textContent = 'Ви ще не збирали пеніси'
 		}
@@ -157,4 +157,5 @@ export function saveScore(score, huis) {
 		//console.log('Час успішно збережено');
 	})
 }
+
 
