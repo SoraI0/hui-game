@@ -272,6 +272,10 @@ body {
         margin-bottom: 20px;
     }
 
+    .records-table {
+        width: 100%;
+    }
+
 
     .user-score {
         width: 100%;

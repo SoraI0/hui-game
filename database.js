@@ -20,16 +20,6 @@ const firebase = getDatabase();
 console.log();
 
 let userIP
-fetch('https://api.ipify.org?format=json')
-	.then(response => response.json())
-	.then(data => {
-		userIP = data.ip
-	})
-	.catch(error => {
-		console.log('Error:', error);
-	});
-
-
 
 export function saveUser(username) {
 	set(ref(firebase, 'Users/' + username), {
@@ -50,7 +40,18 @@ export function saveUser(username) {
 	})
 }
 
+export function updateScores(username) {
+	update(ref(firebase, 'Users/' + username + '/Scores/' + 0), {
+		score: 0,
+		huis: 0,
+		time: serverTimestamp()	
+	}).then(() => {
+		console.log('Успішно збережено', 0, ' ', 0);
+	})
+	
+}
 
+updateScores(localStorage.username)
 
 
 export function saveRecordScore(username, huis, score) {
@@ -79,9 +80,9 @@ export function getRecordBoard(board) {
 		scoreHistory.innerHTML = ' '
 		let scores = snapshot.val();
 		let userScoresArr = Object.values(scores)
-		let scoresCount = userScoresArr.length
+		let scoresCount = userScoresArr.length - 1
 		if (scoresCount <= 0 ) {
-			scoreHistory.textContent = 'Ви ще не зіграли'
+			scoreHistory.textContent = 'Ви ще не збирали пеніси'
 		}
 		let sortedScores = userScoresArr.sort((u1, u2) => {
 			return u2.time - u1.time;
@@ -90,9 +91,14 @@ export function getRecordBoard(board) {
 		sortedScores.forEach(el => {
 			el = Object.values(el)
 			let userScore = document.createElement('div')
-			userScore.innerHTML = `<div>${scoresCount}. Рахунок: ${el[1]}, ╭ᑎ╮${el[0]}</div>`
-			scoreHistory.appendChild(userScore)
-			scoresCount = scoresCount - 1
+			if (el[1] != 0 || el[0] != 0)
+			{
+				userScore.innerHTML = `<div>${scoresCount}. Рахунок: ${el[1]}, ╭ᑎ╮${el[0]}</div>`
+				scoreHistory.appendChild(userScore)
+				scoresCount = scoresCount - 1
+			}
+			
+			
 		})
 	})
 
@@ -109,13 +115,13 @@ export function getRecordBoard(board) {
 		let numScore = 1
 		sortedUsers.forEach(el => {
 			el = Object.values(el)
-			let userRecord = document.createElement('div')
+			let userRecord = document.createElement('tr')
 			if (numScore <= 10) {
 				if (el[4] === localStorage.username) { userScoreOutline = 'style="text-shadow: #fff 1px 0 10px;"' }
-				userRecord.innerHTML = `<div ${userScoreOutline} class="user-score"><span class="score-username">${numScore}. ${el[4]}: </span><span class="score-score"> ${el[3]}╭ᑎ╮${el[1]}</span></div>`
+				userRecord.innerHTML = `<tr ${userScoreOutline} class="user-score"><td class="t-pos">${numScore}.</td><td class="score-username"> ${el[4]}: </td><td class="score-score"> ${el[1]}╭ᑎ╮</td><td>${el[3]}</td></tr>`
 				userScoreOutline = ''
 			} else if (el[4] === localStorage.username) {
-				userRecord.innerHTML = `<div>...</div><div ${userScoreOutline} class="user-score"><span class="score-username">${numScore}. ${el[4]}: </span><span class="score-score"> ${el[3]}╭ᑎ╮${el[1]}</span></div>`
+				userRecord.innerHTML = `<tr>...</tr><tr ${userScoreOutline} class="user-score"><td class="score-username">${numScore}. ${el[4]}: </td><td class="score-score"> ${el[1]}╭ᑎ╮</td></td>${el[3]}</td></tr>`
 				userScoreOutline = ''
 			}
 
