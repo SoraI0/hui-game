@@ -158,39 +158,3 @@ export function saveScore(score, huis) {
 	})
 }
 
-
-
-
-delete localStorage.username
-delete localStorage.score
-delete localStorage.huisCount
-
-
-
-
-
-//  export function checkUserInDB() {
-// 	if (typeof(localStorage.username) !== 'undefined') {
-// 		const Users = ref(firebase, 'Users/');
-// 		let userInDB = true
-// 		console.log('ku');
-// 		let snapUsers
-// 		onValue(Users, (snapshot) => {
-// 			snapUsers = snapshot.val();
-// 			snapUsers = Object.values(snapUsers)
-// 			for (let user = 0; user < snapUsers.length; user++) {
-// 				if(snapUsers[user] === localStorage.username) {
-// 					userInDB = true
-// 					break
-// 				} else {
-// 					userInDB = false
-// 				}
-// 			}
-// 			if (userInDB === false) {
-// 				delete localStorage.username
-// 			}
-// 		})
-		
-		
-// 	}
-// }
