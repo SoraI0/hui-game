@@ -276,6 +276,30 @@ body {
         width: 100%;
     }
 
+        thead {
+
+        }
+
+        tbody {
+
+        }
+
+            .t-pos {
+                text-align: left;
+            }
+
+            .t-name {
+                margin-left: 10px;
+                text-align: left;
+            }
+
+            .t-huis {
+
+            } 
+
+            .t-score {
+
+            }
 
     .user-score {
         width: 100%;

@@ -21,6 +21,15 @@ console.log();
 
 let userIP
 
+fetch('https://api.ipify.org?format=json')
+	.then(response => response.json())
+	.then(data => {
+		userIP = data.ip
+	})
+	.catch(() => {
+		userIP = 0
+	});
+
 export function saveUser(username) {
 	set(ref(firebase, 'Users/' + username), {
 		huis: 0,
@@ -118,7 +127,7 @@ export function getRecordBoard(board) {
 			let userRecord = document.createElement('tr')
 			if (numScore <= 10) {
 				if (el[4] === localStorage.username) { userScoreOutline = 'style="text-shadow: #fff 1px 0 10px;"' }
-				userRecord.innerHTML = `<tr ${userScoreOutline} class="user-score"><td class="t-pos">${numScore}.</td><td class="score-username"> ${el[4]}: </td><td class="score-score"> ${el[1]}╭ᑎ╮</td><td>${el[3]}</td></tr>`
+				userRecord.innerHTML = `<tr ${userScoreOutline} class="user-score"><td class="t-pos">${numScore}.</td><td class="t-name"> ${el[4]}: </td><td class="t-huis"> ${el[1]}╭ᑎ╮</td><td class="t-score">${el[3]}</td></tr>`
 				userScoreOutline = ''
 			} else if (el[4] === localStorage.username) {
 				userRecord.innerHTML = `<tr>...</tr><tr ${userScoreOutline} class="user-score"><td class="score-username">${numScore}. ${el[4]}: </td><td class="score-score"> ${el[1]}╭ᑎ╮</td></td>${el[3]}</td></tr>`
