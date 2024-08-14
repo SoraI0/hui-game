@@ -13,6 +13,8 @@ const form = document.querySelector('.form-username')
 const login = document.querySelector('#login')
 const game = document.querySelector('#game')
 const recordBoard = document.querySelector('.record-box')
+const pauseButton = document.querySelector('.pause')
+const continueButton = document.querySelector('.play')
 
 
 const scoreRecord = document.querySelector('.score-record > span')
@@ -117,10 +119,50 @@ login.addEventListener('click', () => {
 		inscr.style.color = 'red'
 		inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
 	} 
-
-	
-
 })
+
+
+
+const pauseScreen = document.querySelector('.pause-screen')
+
+let isPaused = false
+pauseButton.addEventListener('click', ()=> {
+	console.log('log');
+	pauseGame()
+	pauseButton.style.display = 'none'
+	continueButton.style.display = 'block'
+	pauseScreen.style.display = 'flex'
+
+	isPaused = true
+})
+
+continueButton.addEventListener('click', ()=> {
+	continueGame()
+	pauseButton.style.display = 'block'
+	continueButton.style.display = 'none'
+	pauseScreen.style.display = 'none'
+
+	isPaused = false
+})
+
+
+
+
+
+function continueGame() {
+	gameLoop = setInterval(gameTick, 5)
+
+	huiSpawn = setInterval(() => {
+		setTimeout(() => {
+			huiCreate()
+		}, getRndInteger(0, 4000 + convSpeed * 100 + huisCount * 10))
+	}, 2000)
+
+	scoreCounter = setInterval(() => {
+		score = score + 1 * huisCount
+		scoreCountOnScreen.textContent = score
+	}, 100)
+}
 
 function pauseGame() {
 	clearInterval(gameLoop)
@@ -244,12 +286,16 @@ function reset() {
 
 }
 
+
+const pauseBtns = document.querySelector('.button-pause-play')
 buttonStart.addEventListener('click', () => {
 	gameStart()
+	pauseBtns.style.display = 'flex'
 })
 
 buttonRestart.addEventListener('click', () => {
 	gameStart()
+	pauseBtns.style.display = 'flex'
 })
 
 function getPosition(element) {
@@ -282,6 +328,7 @@ function gameEnd() {
 	scoreBoard.style.display = 'none'
 	gameField.style.marginTop = '33.33px'
 	buttonRestart.style.display = 'flex'
+	pauseBtns.style.display = 'none'
 
 	endScreen.innerHTML = `Отакої,<br>ви зачепилися за пеніс<br>Ваш рахуок: ${score}<br>Зібрано пенісів: ${huisCount}`
 	clearInterval(huiSpawn)
@@ -323,7 +370,6 @@ function doorOpening() {
 		door.style.bottom = Number(door.style.bottom.slice(0, -2)) + 1 * convSpeed + 'px';
 		if (Number(door.style.bottom.slice(0, -2)) >= 120) { clearInterval(doorMove); }
 	}, 3);
-	
 }
 
 function doorEnding() {
@@ -335,23 +381,25 @@ function doorEnding() {
 }
 
 function handleDownEvent() {
-	if (Number(door.style.bottom.slice(0, -2)) <= 0) {
-		if (stamina >= 75) {
-			doorOpening();
-		}
-		clearInterval(increasingStamina);
-		lossStamina = setInterval(() => {
-			stamina -= 1 * convSpeed;
-			staminaInd.style.width = stamina + 'px';
-			if (stamina <= 0) {
-				doorEnding();
-				clearInterval(lossStamina);
-			}
-		}, 13);
+	if (isPaused) {return}
+	if (Number(door.style.bottom.slice(0, -2)) > 0) {return}
+
+	if (stamina >= 75) {
+		doorOpening();
 	}
+	clearInterval(increasingStamina);
+	lossStamina = setInterval(() => {
+		stamina -= 1 * convSpeed;
+		staminaInd.style.width = stamina + 'px';
+		if (stamina <= 0) {
+			doorEnding();
+			clearInterval(lossStamina);
+		}
+	}, 13);
 }
 
 function handleUpEvent() {
+	if (isPaused) {return}
 	if (Number(door.style.bottom.slice(0, -2)) > 0) { doorEnding(); }
 	clearInterval(increasingStamina);
 	clearInterval(lossStamina);
@@ -377,25 +425,20 @@ function spaceBarUp(event){
 }
 
 function doorControl() {
-	body.removeEventListener('mousedown', handleDownEvent);
-	body.removeEventListener('mouseup', handleUpEvent);
-	body.removeEventListener('touchstart', handleDownEvent);
-	body.removeEventListener('touchend', handleUpEvent);
-	body.removeEventListener('keydown', spaceBarDown)
-	body.removeEventListener('keyup', spaceBarUp)
-
-	
-	
-	
-	body.addEventListener('mousedown', handleDownEvent);
-	body.addEventListener('touchstart', handleDownEvent);
-	body.addEventListener('mouseup', handleUpEvent);
-	body.addEventListener('touchend', handleUpEvent);
-
-	body.addEventListener('keydown', spaceBarDown)
-
-	body.addEventListener('keyup', spaceBarUp)
-	
+		body.removeEventListener('mousedown', handleDownEvent);
+		body.removeEventListener('mouseup', handleUpEvent);
+		body.removeEventListener('touchstart', handleDownEvent);
+		body.removeEventListener('touchend', handleUpEvent);
+		body.removeEventListener('keydown', spaceBarDown)
+		body.removeEventListener('keyup', spaceBarUp)
+		
+		
+		body.addEventListener('mousedown', handleDownEvent);
+		body.addEventListener('touchstart', handleDownEvent);
+		body.addEventListener('mouseup', handleUpEvent);
+		body.addEventListener('touchend', handleUpEvent);
+		body.addEventListener('keydown', spaceBarDown)
+		body.addEventListener('keyup', spaceBarUp)
 }
 
 
