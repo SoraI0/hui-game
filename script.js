@@ -146,7 +146,16 @@ continueButton.addEventListener('click', ()=> {
 })
 
 
+function onVisibilitychange() {
+	if (isPaused){return}
+	if (document.hidden) {
+		pauseGame()
+	  } else {
+		continueGame()
+	  }
+}
 
+document.addEventListener("visibilitychange", onVisibilitychange);
 
 
 function continueGame() {
@@ -169,6 +178,7 @@ function pauseGame() {
 	clearInterval(huiSpawn)
 	clearInterval(scoreCounter)
 }
+
 
 
 
@@ -443,4 +453,7 @@ function doorControl() {
 
 
 	
+
+
+
 
