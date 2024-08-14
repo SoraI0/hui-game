@@ -122,10 +122,17 @@ login.addEventListener('click', () => {
 
 })
 
+function pauseGame() {
+	clearInterval(gameLoop)
+	clearInterval(huiSpawn)
+	clearInterval(scoreCounter)
+}
+
+
+
 function gameStart() {
 	isGame = true
 	reset()
-
 
 	gameLoop = setInterval(gameTick, 5)
 
@@ -358,22 +365,26 @@ function handleUpEvent() {
 		}
 	}, 10);
 }
+function spaceBarDown(event){
+	if (event.code === 'Space') {
+		handleDownEvent()
+	}
+}
+function spaceBarUp(event){
+	if (event.code === 'Space') {
+		handleUpEvent()
+	}
+}
 
 function doorControl() {
 	body.removeEventListener('mousedown', handleDownEvent);
 	body.removeEventListener('mouseup', handleUpEvent);
 	body.removeEventListener('touchstart', handleDownEvent);
 	body.removeEventListener('touchend', handleUpEvent);
-	body.removeEventListener('keydown', event => {
-		if (event.code === 'Space') {
-			handleDownEvent()
-		}
-	})
-	body.removeEventListener('keyup', event => {
-		if (event.code === 'Space') {
-			handleUpEvent()
-		}
-	})
+	body.removeEventListener('keydown', spaceBarDown)
+	body.removeEventListener('keyup', spaceBarUp)
+
+	
 	
 	
 	body.addEventListener('mousedown', handleDownEvent);
@@ -381,17 +392,9 @@ function doorControl() {
 	body.addEventListener('mouseup', handleUpEvent);
 	body.addEventListener('touchend', handleUpEvent);
 
-	body.addEventListener('keydown', event => {
-		if (event.code === 'Space') {
-			handleDownEvent()
-		}
-	})
+	body.addEventListener('keydown', spaceBarDown)
 
-	body.addEventListener('keyup', event => {
-		if (event.code === 'Space') {
-			handleUpEvent()
-		}
-	})
+	body.addEventListener('keyup', spaceBarUp)
 	
 }
 

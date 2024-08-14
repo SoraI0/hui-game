@@ -30,6 +30,31 @@ body {
 	
 }
 
+.button-pause{
+    width: 50px;
+    height: 50px;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+    /* .button-pause > div {
+        width: 7px;
+        height: 30px;
+        background: white;
+    } */
+
+    .button-pause > div:first-child {
+        width: 0; 
+        height: 0; 
+        border-top: 20px solid transparent;
+        border-bottom: 20px solid transparent;
+        
+        border-left: 20px solid white;
+        
+    }
+
 .button {
     width: 175px;
     height: 50px;
