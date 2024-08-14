@@ -316,6 +316,7 @@ function doorOpening() {
 		door.style.bottom = Number(door.style.bottom.slice(0, -2)) + 1 * convSpeed + 'px';
 		if (Number(door.style.bottom.slice(0, -2)) >= 120) { clearInterval(doorMove); }
 	}, 3);
+	
 }
 
 function doorEnding() {
@@ -363,12 +364,35 @@ function doorControl() {
 	body.removeEventListener('mouseup', handleUpEvent);
 	body.removeEventListener('touchstart', handleDownEvent);
 	body.removeEventListener('touchend', handleUpEvent);
+	body.removeEventListener('keydown', event => {
+		if (event.code === 'Space') {
+			handleDownEvent()
+		}
+	})
+	body.removeEventListener('keyup', event => {
+		if (event.code === 'Space') {
+			handleUpEvent()
+		}
+	})
+	
 	
 	body.addEventListener('mousedown', handleDownEvent);
 	body.addEventListener('touchstart', handleDownEvent);
-
 	body.addEventListener('mouseup', handleUpEvent);
 	body.addEventListener('touchend', handleUpEvent);
+
+	body.addEventListener('keydown', event => {
+		if (event.code === 'Space') {
+			handleDownEvent()
+		}
+	})
+
+	body.addEventListener('keyup', event => {
+		if (event.code === 'Space') {
+			handleUpEvent()
+		}
+	})
+	
 }
 
 
