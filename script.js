@@ -1,4 +1,4 @@
-import { saveScore, saveRecordScore, saveUser, getRecordBoard, sortedUsers, updateScores} from "./database.js"
+import { saveScore, saveRecordScore, saveUser, getRecordBoard, sortedUsers, updateScores } from "./database.js"
 
 const door = document.querySelector('.door')
 const body = document.querySelector('body')
@@ -102,11 +102,11 @@ login.addEventListener('click', () => {
 			inscr.style.color = 'red'
 			inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
 		}
-		
-	})
-	
 
-	if (username.length >= 3 && username.length <= 15 && !sameName ) {
+	})
+
+
+	if (username.length >= 3 && username.length <= 15 && !sameName) {
 		form.style.display = 'none'
 		game.style.display = 'flex'
 
@@ -118,7 +118,7 @@ login.addEventListener('click', () => {
 		inscr.textContent = '(мінімум 3 символи, максимум 15)'
 		inscr.style.color = 'red'
 		inscr.style.fontSize = (Number(inscr.style.fontSize.slice(0, -2)) + 1) + 'px'
-	} 
+	}
 })
 
 
@@ -126,7 +126,7 @@ login.addEventListener('click', () => {
 const pauseScreen = document.querySelector('.pause-screen')
 
 let isPaused = false
-pauseButton.addEventListener('click', ()=> {
+pauseButton.addEventListener('click', () => {
 	console.log('log');
 	pauseGame()
 	pauseButton.style.display = 'none'
@@ -134,25 +134,38 @@ pauseButton.addEventListener('click', ()=> {
 	pauseScreen.style.display = 'flex'
 
 	isPaused = true
+	clearInterval(doorMove)
+	clearInterval(increasingStamina)
+
 })
 
-continueButton.addEventListener('click', ()=> {
+continueButton.addEventListener('click', () => {
 	continueGame()
 	pauseButton.style.display = 'block'
 	continueButton.style.display = 'none'
 	pauseScreen.style.display = 'none'
 
 	isPaused = false
+	doorEnding()
+	increasingStamina = setInterval(() => {
+		if (stamina < 200) {
+			stamina += 1;
+			staminaInd.style.width = stamina + 'px';
+		}
+		if (stamina === 200) {
+			clearInterval(increasingStamina);
+		}
+	}, 10);
 })
 
 
 function onVisibilitychange() {
-	if (isPaused){return}
+	if (isPaused || !isGame) { return }
 	if (document.hidden) {
 		pauseGame()
-	  } else {
+	} else {
 		continueGame()
-	  }
+	}
 }
 
 document.addEventListener("visibilitychange", onVisibilitychange);
@@ -326,7 +339,7 @@ function collision(door, hui) {
 		|| doorPosition >= huiPosition
 		&& doorPosition - 60 <= huiPosition
 		&& Number(door.style.bottom.slice(0, -2)) < 90
-		
+
 }
 
 function gameEnd() {
@@ -385,14 +398,14 @@ function doorOpening() {
 function doorEnding() {
 	clearInterval(doorMove);
 	doorMove = setInterval(() => {
-		door.style.bottom = Number(door.style.bottom.slice(0, -2)) - 1*convSpeed + 'px';
+		door.style.bottom = Number(door.style.bottom.slice(0, -2)) - 1 * convSpeed + 'px';
 		if (Number(door.style.bottom.slice(0, -2)) <= 0) { clearInterval(doorMove); }
 	}, 3);
 }
 
 function handleDownEvent() {
-	if (isPaused) {return}
-	if (Number(door.style.bottom.slice(0, -2)) > 0) {return}
+	if (isPaused) { return }
+	if (Number(door.style.bottom.slice(0, -2)) > 0) { return }
 
 	if (stamina >= 75) {
 		doorOpening();
@@ -409,7 +422,7 @@ function handleDownEvent() {
 }
 
 function handleUpEvent() {
-	if (isPaused) {return}
+	if (isPaused) { return }
 	if (Number(door.style.bottom.slice(0, -2)) > 0) { doorEnding(); }
 	clearInterval(increasingStamina);
 	clearInterval(lossStamina);
@@ -423,36 +436,36 @@ function handleUpEvent() {
 		}
 	}, 10);
 }
-function spaceBarDown(event){
+function spaceBarDown(event) {
 	if (event.code === 'Space') {
 		handleDownEvent()
 	}
 }
-function spaceBarUp(event){
+function spaceBarUp(event) {
 	if (event.code === 'Space') {
 		handleUpEvent()
 	}
 }
 
 function doorControl() {
-		body.removeEventListener('mousedown', handleDownEvent);
-		body.removeEventListener('mouseup', handleUpEvent);
-		body.removeEventListener('touchstart', handleDownEvent);
-		body.removeEventListener('touchend', handleUpEvent);
-		body.removeEventListener('keydown', spaceBarDown)
-		body.removeEventListener('keyup', spaceBarUp)
-		
-		
-		body.addEventListener('mousedown', handleDownEvent);
-		body.addEventListener('touchstart', handleDownEvent);
-		body.addEventListener('mouseup', handleUpEvent);
-		body.addEventListener('touchend', handleUpEvent);
-		body.addEventListener('keydown', spaceBarDown)
-		body.addEventListener('keyup', spaceBarUp)
+	body.removeEventListener('mousedown', handleDownEvent);
+	body.removeEventListener('mouseup', handleUpEvent);
+	body.removeEventListener('touchstart', handleDownEvent);
+	body.removeEventListener('touchend', handleUpEvent);
+	body.removeEventListener('keydown', spaceBarDown)
+	body.removeEventListener('keyup', spaceBarUp)
+
+
+	body.addEventListener('mousedown', handleDownEvent);
+	body.addEventListener('touchstart', handleDownEvent);
+	body.addEventListener('mouseup', handleUpEvent);
+	body.addEventListener('touchend', handleUpEvent);
+	body.addEventListener('keydown', spaceBarDown)
+	body.addEventListener('keyup', spaceBarUp)
 }
 
 
-	
+
 
 
 
