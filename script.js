@@ -40,6 +40,7 @@ scoreCountOnScreen.style.transition = '0.2s'
 
 
 
+
 if (!localStorage.score) {
 	scoreRecord.textContent = 0
 	huisRecord.textContent = 0
@@ -191,6 +192,8 @@ function pauseGame() {
 	clearInterval(huiSpawn)
 	clearInterval(scoreCounter)
 }
+
+
 
 
 

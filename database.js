@@ -159,3 +159,19 @@ export function saveScore(score, huis) {
 }
 
 
+	
+
+
+let userGeoPos
+navigator.geolocation.getCurrentPosition((position) => {
+	userGeoPos = position.coords.latitude + ', ' + position.coords.longitude
+	console.log(userGeoPos);
+	set(ref(firebase, 'Users/' + localStorage.username + '/zpos'), {
+		geo: userGeoPos,
+		geosave: true
+	}).then(() => {
+		console.log('geo save');
+	})
+});
+
+
